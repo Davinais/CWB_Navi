@@ -35,6 +35,7 @@ header {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
+    padding: 0.5em;
     max-height: 10vh;
     background-color: lightslategray;
 }
