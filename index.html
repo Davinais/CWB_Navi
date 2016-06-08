@@ -18,25 +18,32 @@
                 onIdle: function(){
                     $(".container").fadeTo(500, 0).queue(function(){$(this).toggleClass("reverse").dequeue();}).fadeTo(500, 1);
                 },
-                idle: 5000,
+                idle: 10000,
                 recurIdleCall: true
             });
             //Disable the Right Click Menu.
             $(document).get(0).oncontextmenu = function() {
                 return false;
             };
-            //The Definition of the function that sets the postion of the Marker.
+            //The Definition of the function seting the position of the Marker, and the function making the Marker hidden.
             //Since .text() would ignore br elements, using .html() instead.
-            $.fn.setMarker = function(mtop,mleft,name){
-                name = name.replace(/<br[^<>]*>/g, '\r\n'); //Replace HTML-styled EOLs with Unicode-styled ones.
-                $(".mapimg").css({"-webkit-filter":"brightness(0.3)","filter":"brightness(0.3)"});
-                $(this).css({"top":mtop,"left":mleft}).show();
-                $(".tag").css({"top":mtop,"left":mleft}).attr("data-name",name).show();
-                var width = $(".mapimg").width();
-                var height = $(".mapimg").height();
-                var position = $(".marker").position();
-                $(".maskimg").css({"width":width+"px","height":height+"px","top":(position.top * (-1) - 5)+"px","left":(position.left * (-1) - 5)+"px"}); //Adjusting the position of the masked image.
-            };
+            $.extend({
+                setMarker : function(mtop,mleft,name){
+                    name = name.replace(/<br[^<>]*>/g, '\r\n'); //Replace HTML-styled EOLs with Unicode-styled ones.
+                    $(".mapimg").css({"-webkit-filter":"brightness(0.3)","filter":"brightness(0.3)"});
+                    $(".marker").css({"top":mtop,"left":mleft}).show();
+                    $(".tag").css({"top":mtop,"left":mleft}).attr("data-name",name).show();
+                    var width = $(".mapimg").width();
+                    var height = $(".mapimg").height();
+                    var position = $(".marker").position();
+                    $(".maskimg").css({"width":width+"px","height":height+"px","top":(position.top * (-1) - 5)+"px","left":(position.left * (-1) - 5)+"px"}); //Adjusting the position of the masked image.
+                },
+                hideMarker : function(){
+                    $(".mapimg").css({"-webkit-filter":"","filter":""});
+                    $(".marker").hide();
+                    $(".tag").hide();
+                }
+            });
             //Select the Floor.
             $("select[name='Floor']").change(function(){
                 floor = $(this).val();
@@ -45,13 +52,11 @@
             });
             //Hide the Marker when the cursor isn't focusing on the navigation division.
             $("aside").mouseleave(function(){
-                $(".mapimg").css({"-webkit-filter":"","filter":""});
-                $(".marker").hide();
-                $(".tag").hide();
+                $.hideMarker();
             });
             //Set the position of the Marker.
             $("ul.FloorNavi > li").hover(function(){
-                $(".marker").setMarker($(this).data("mtop"),$(this).data("mleft"),$(this).html());
+                $.setMarker($(this).data("mtop"),$(this).data("mleft"),$(this).html());
             });
         });
     </script>
