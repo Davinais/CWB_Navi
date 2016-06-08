@@ -54,9 +54,12 @@
             $("aside").mouseleave(function(){
                 $.hideMarker();
             });
-            //Set the position of the Marker.
+            //Set the position of the Marker, and hide it after 5 seconds.
+            var markerOut; //Set a TimeOut ID to handle the event.
             $("ul.FloorNavi > li").hover(function(){
+                clearTimeout(markerOut);
                 $.setMarker($(this).data("mtop"),$(this).data("mleft"),$(this).html());
+                markerOut = setTimeout("$.hideMarker();", 5000);
             });
         });
     </script>
