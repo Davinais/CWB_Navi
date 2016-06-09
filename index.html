@@ -45,8 +45,10 @@
                 }
             });
             //Select the Floor.
-            $("select[name='Floor']").change(function(){
-                floor = $(this).val();
+            $("aside > div > ul > li").click(function(){
+                $("aside > div > ul > li").removeClass("selected");
+                var floor = $(this).data("floor");
+                $(this).addClass("selected");
                 $("nav > ul").hide();
                 $("#"+floor).show();
             });
@@ -65,18 +67,18 @@
     </script>
 </head>
 <body>
-    <div class="container">
+    <div class="flex container">
         <aside>
-            <header>
+            <header class="flex">
                 <img src="img/SCWB_Logo_500x526.png" style="max-height: inherit;" alt="" />
                 <h2>臺灣南區氣象中心</h2>
             </header>
-            <div class="menu">
-                <select name="Floor" style="width: 90%;">
-                    <option value="FirstFloor" selected>一樓(1F)</option>
-                    <option value="ThirdFloor">三樓(3F)</option>
-                    <option value="FifthFloor">五樓(5F)</option>
-                </select>
+            <div id="menu" class="flex">
+                <ul>
+                    <li data-floor="FirstFloor" class="selected">一樓(1F)</li>
+                    <li data-floor="ThirdFloor">三樓(3F)</li>
+                    <li data-floor="FifthFloor">五樓(5F)</li>
+                </ul>
             </div>
             <nav>
                 <ul id="FirstFloor">
