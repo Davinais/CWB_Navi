@@ -8,11 +8,13 @@ body {
     user-select: none;
     font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
 }
-.container {
+.flex {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: -webkit-box;
     display: flex;
+}
+.container {
     height: 100vh;
 }
 aside {
@@ -28,19 +30,54 @@ aside {
     overflow: auto;
 }
 header {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
     -webkit-box-align: center;
     -webkit-align-items: center;
     -ms-flex-align: center;
+    -ms-grid-row-align: center;
     align-items: center;
     padding: 0.5em;
     max-height: 10vh;
     background-color: lightslategray;
 }
+aside > div {
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 0.4em;
+    margin-bottom: 0.3em;
+}
+aside > div > ul {
+    margin: 0.2em 0.1em 0.2em 0.1em;
+    padding: 0px;
+}
+aside > div > ul > li {
+    list-style: none;
+    float: left;
+    margin: 0px;
+    padding: 0.2em 1em 0.2em 1em;
+    background-color: white;
+    border: thin solid dimgray;
+    cursor: pointer;
+}
+aside > div > ul > li:first-child {
+    border-top-left-radius: 0.5em;
+    border-bottom-left-radius: 0.5em;
+}
+aside > div > ul > li:last-child {
+    border-top-right-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+}
+.selected {
+    background-color: orange;
+    border-color: white;
+    color: white;
+    font-weight: bold;
+}
 nav ul {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
     padding-right: 1.5em;
     padding-left: 1.5em;
 }
@@ -58,11 +95,6 @@ nav li {
 nav li:active {
     background-color: lightyellow;
     box-shadow: inset 0.1em 0.1em 0.5em -0.1em;
-}
-.menu {
-    text-align: center;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
 }
 .imagebox {
     position: relative;
