@@ -47,7 +47,7 @@
             //Select the Floor.
             $("select[name='Floor']").change(function(){
                 floor = $(this).val();
-                $(".FloorNavi").hide();
+                $("nav > ul").hide();
                 $("#"+floor).show();
             });
             //Hide the Marker when the cursor isn't focusing on the navigation division.
@@ -56,10 +56,10 @@
             });
             //Set the position of the Marker, and hide it after 5 seconds.
             var markerOut; //Set a TimeOut ID to handle the event.
-            $("ul.FloorNavi > li").hover(function(){
+            $("nav > ul > li").hover(function(){
                 $(this).trigger("click");
             });
-            $("ul.FloorNavi > li").click(function(){
+            $("nav > ul > li").click(function(){
                 clearTimeout(markerOut);
                 $.setMarker($(this).data("mtop"),$(this).data("mleft"),$(this).html());
                 markerOut = setTimeout("$.hideMarker();", 5000);
@@ -82,7 +82,7 @@
                 </select>
             </div>
             <nav>
-                <ul id="FirstFloor" class="FloorNavi">
+                <ul id="FirstFloor">
                     <li data-mtop="33%" data-mleft="75%">即時衛星雲圖</li>
                     <li data-mtop="30%" data-mleft="64%">空中映像</li>
                     <li data-mtop="29%" data-mleft="57%">無人氣象飛機</li>
@@ -103,7 +103,7 @@
                     <li data-mtop="39%" data-mleft="16%">高空氣象觀測</li>
                     <li data-mtop="39%" data-mleft="23%">全臺氣象測站</li>
                 </ul>
-                <ul id="ThirdFloor" class="FloorNavi" style="display: none;">
+                <ul id="ThirdFloor" style="display: none;">
                     <li data-mtop="0%" data-mleft="0%">大氣環境監測<br />氣候冠軍賓果王<br />氣候面面觀</li>
                     <li data-mtop="0%" data-mleft="0%">氣象資料庫</li>
                     <li data-mtop="0%" data-mleft="0%">數值天氣預報</li>
@@ -126,7 +126,7 @@
                     <li data-mtop="0%" data-mleft="0%">地震儀<br />地震觀測</li>
                     <li data-mtop="0%" data-mleft="0%">海嘯</li>
                 </ul>
-                <ul id="FifthFloor" class="FloorNavi" style="display: none;">
+                <ul id="FifthFloor" style="display: none;">
                     <li data-mtop="0%" data-mleft="0%">星座盤</li>
                     <li data-mtop="0%" data-mleft="0%">四季的星座</li>
                     <li data-mtop="0%" data-mleft="0%">中西星座的比較</li>
