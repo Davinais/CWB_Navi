@@ -56,9 +56,6 @@
             });
             //Set the position of the Marker, and hide it after 5 seconds.
             var markerOut; //Set a TimeOut ID to handle the event.
-            $("nav > ul > li").hover(function(){
-                $(this).trigger("click");
-            });
             $("nav > ul > li").click(function(){
                 clearTimeout(markerOut);
                 $.setMarker($(this).data("mtop"),$(this).data("mleft"),$(this).html());
