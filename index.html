@@ -30,16 +30,15 @@
             $.extend({
                 setMarker : function(mtop,mleft,name){
                     name = name.replace(/<br[^<>]*>/g, '\r\n'); //Replace HTML-styled EOLs with Unicode-styled ones.
-                    $(".mapimg").css({"-webkit-filter":"brightness(0.3)","filter":"brightness(0.3)"});
+                    $("#mapimg").css({"-webkit-filter":"brightness(0.3)","filter":"brightness(0.3)"});
                     $(".marker").css({"top":mtop,"left":mleft}).show();
                     $(".tag").css({"top":mtop,"left":mleft}).attr("data-name",name).show();
-                    var width = $(".mapimg").width();
-                    var height = $(".mapimg").height();
+                    var width = $("#mapimg").width();
                     var position = $(".marker").position();
-                    $(".maskimg").css({"width":width+"px","height":height+"px","top":(position.top * (-1) - 5)+"px","left":(position.left * (-1) - 5)+"px"}); //Adjusting the position of the masked image.
+                    $("#maskimg").css({"width":width+"px","top":(position.top * (-1) - 5)+"px","left":(position.left * (-1) - 5)+"px"}); //Adjusting the position of the masked image.
                 },
                 hideMarker : function(){
-                    $(".mapimg").css({"-webkit-filter":"","filter":""});
+                    $("#mapimg").css({"-webkit-filter":"","filter":""});
                     $(".marker").hide();
                     $(".tag").hide();
                 }
@@ -49,8 +48,13 @@
                 $("aside > div > ul > li").removeClass("selected");
                 var floor = $(this).data("floor");
                 $(this).addClass("selected");
+                $.hideMarker();
                 $("nav > ul").hide();
                 $("#"+floor).show();
+                $("#iconimg").attr("src", "img/"+floor+"_Icon.png");
+                $("#mapimg").attr("src", "img/"+floor+"_noIcon.png");
+                $("#maskimg").attr("src", "img/"+floor+"_noIcon.png");
+                $(".imagebox").css("max-width", $(this).data("imgwidth"));
             });
             //Hide the Marker when the cursor isn't focusing on the navigation division.
             $("aside").mouseleave(function(){
@@ -75,13 +79,13 @@
             </header>
             <div id="menu" class="flex">
                 <ul>
-                    <li data-floor="FirstFloor" class="selected">一樓(1F)</li>
-                    <li data-floor="ThirdFloor">三樓(3F)</li>
-                    <li data-floor="FifthFloor">五樓(5F)</li>
+                    <li data-floor="Nav_1F" data-imgwidth="2283px" class="selected">一樓(1F)</li>
+                    <li data-floor="Nav_3F" data-imgwidth="1826px">三樓(3F)</li>
+                    <li data-floor="Nav_5F" data-imgwidth="2283px">五樓(5F)</li>
                 </ul>
             </div>
             <nav>
-                <ul id="FirstFloor">
+                <ul id="Nav_1F">
                     <li data-mtop="32%" data-mleft="75%">即時衛星雲圖</li>
                     <li data-mtop="29%" data-mleft="64%">空中映像</li>
                     <li data-mtop="28%" data-mleft="57%">無人氣象飛機</li>
@@ -102,30 +106,30 @@
                     <li data-mtop="35%" data-mleft="16%">高空氣象觀測</li>
                     <li data-mtop="34%" data-mleft="23%">全臺氣象測站</li>
                 </ul>
-                <ul id="ThirdFloor" style="display: none;">
-                    <li data-mtop="0%" data-mleft="0%">大氣環境監測<br />氣候冠軍賓果王<br />氣候面面觀</li>
-                    <li data-mtop="0%" data-mleft="0%">氣象資料庫</li>
-                    <li data-mtop="0%" data-mleft="0%">數值天氣預報</li>
-                    <li data-mtop="0%" data-mleft="0%">數值預報系統作業流程圖</li>
-                    <li data-mtop="0%" data-mleft="0%">天氣預報流程</li>
-                    <li data-mtop="0%" data-mleft="0%">柯氏力</li>
-                    <li data-mtop="0%" data-mleft="0%">龍捲風</li>
-                    <li data-mtop="0%" data-mleft="0%">低氣壓/高氣壓</li>
-                    <li data-mtop="0%" data-mleft="0%">風<br />落山風/焚風</li>
-                    <li data-mtop="0%" data-mleft="0%">颱風</li>
-                    <li data-mtop="0%" data-mleft="0%">鋒面</li>
-                    <li data-mtop="0%" data-mleft="0%">季風</li>
-                    <li data-mtop="0%" data-mleft="0%">地球內部構造<br />地殼變動</li>
-                    <li data-mtop="0%" data-mleft="0%">造山運動</li>
-                    <li data-mtop="0%" data-mleft="0%">地震經驗</li>
-                    <li data-mtop="0%" data-mleft="0%">臺灣地震發生在哪裡</li>
-                    <li data-mtop="0%" data-mleft="0%">火山構造</li>
-                    <li data-mtop="0%" data-mleft="0%">地震帶<br />構造板塊分布<br />火山帶<br />臺灣的震源分布</li>
-                    <li data-mtop="0%" data-mleft="0%">地震成因</li>
-                    <li data-mtop="0%" data-mleft="0%">地震儀<br />地震觀測</li>
-                    <li data-mtop="0%" data-mleft="0%">海嘯</li>
+                <ul id="Nav_3F" style="display: none;">
+                    <li data-mtop="35%" data-mleft="8%">大氣環境監測<br />氣候冠軍賓果王<br />氣候面面觀</li>
+                    <li data-mtop="26%" data-mleft="4%">氣象資料庫</li>
+                    <li data-mtop="14%" data-mleft="5%">數值天氣預報</li>
+                    <li data-mtop="9%" data-mleft="9.5%">數值預報系統作業流程圖</li>
+                    <li data-mtop="9%" data-mleft="17%">天氣預報流程</li>
+                    <li data-mtop="28%" data-mleft="29.5%">柯氏力</li>
+                    <li data-mtop="12%" data-mleft="33%">龍捲風</li>
+                    <li data-mtop="9%" data-mleft="39%">低氣壓/高氣壓</li>
+                    <li data-mtop="15%" data-mleft="41%">風<br />落山風/焚風</li>
+                    <li data-mtop="24%" data-mleft="41%">颱風</li>
+                    <li data-mtop="33%" data-mleft="41%">鋒面</li>
+                    <li data-mtop="40%" data-mleft="41%">季風</li>
+                    <li data-mtop="64%" data-mleft="39%">地球內部構造<br />地殼變動</li>
+                    <li data-mtop="80%" data-mleft="40%">造山運動</li>
+                    <li data-mtop="57%" data-mleft="56%">地震經驗</li>
+                    <li data-mtop="68%" data-mleft="56.5%">臺灣地震發生在哪裡</li>
+                    <li data-mtop="80%" data-mleft="52%">火山構造</li>
+                    <li data-mtop="79%" data-mleft="57.5%">地震帶<br />構造板塊分布<br />火山帶<br />臺灣的震源分布</li>
+                    <li data-mtop="80%" data-mleft="63%">地震成因</li>
+                    <li data-mtop="72%" data-mleft="73%">地震儀<br />地震觀測</li>
+                    <li data-mtop="57%" data-mleft="74%">海嘯</li>
                 </ul>
-                <ul id="FifthFloor" style="display: none;">
+                <ul id="Nav_5F" style="display: none;">
                     <li data-mtop="0%" data-mleft="0%">星座盤</li>
                     <li data-mtop="0%" data-mleft="0%">四季的星座</li>
                     <li data-mtop="0%" data-mleft="0%">中西星座的比較</li>
@@ -151,12 +155,12 @@
                 </ul>
             </nav>
         </aside>
-        <div class="imagebox" style="max-width: 2283px; max-height: 1297px;">
-            <img src="img/Icon.png" class="iconimg" alt="指示標籤"/>
-            <img src="img/1F_noIcon.png" class="mapimg" alt="導覽圖"/>
+        <div class="imagebox" style="max-width: 2283px;">
+            <img src="img/Nav_1F_Icon.png" id="iconimg" alt="指示標籤"/>
+            <img src="img/Nav_1F_noIcon.png" id="mapimg" alt="導覽圖"/>
             <span class="tag" style="display: none;"></span>
             <div class="marker blink" style="display: none;">
-                <img src="img/1F_noIcon.png" class="maskimg" alt="導覽圖"/>
+                <img src="img/Nav_1F_noIcon.png" id="maskimg" alt="導覽圖"/>
             </div>
         </div>
     </div>

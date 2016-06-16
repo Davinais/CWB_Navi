@@ -8,6 +8,11 @@ body {
     user-select: none;
     font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
 }
+//Preload the image using css.
+body::after {
+    content: url("/img/1F_Icon.png") url("/img/1F_noIcon.png") url("/img/3F_Icon.png") url("/img/3F_noIcon.png");
+    display: none;
+}
 .flex {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -106,14 +111,14 @@ nav li:active {
     -ms-flex: 5 1 0%;
     flex: 5;
 }
-.mapimg {
+#mapimg {
     display: block;
     position: relative;
     max-height: 100%;
     max-width: 100%;
     z-index: 0;
 }
-.iconimg {
+#iconimg {
     position: absolute;
     top: 0;
     left: 0;
@@ -121,7 +126,7 @@ nav li:active {
     max-width: 100%;
     z-index: 0;
 }
-.maskimg {
+#maskimg {
     position: absolute;
 }
 .marker {
