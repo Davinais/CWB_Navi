@@ -8,9 +8,9 @@ body {
     user-select: none;
     font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
 }
-//Preload the image using css.
+/* Preload Images using CSS. */
 body::after {
-    content: url("/img/1F_Icon.png") url("/img/1F_noIcon.png") url("/img/3F_Icon.png") url("/img/3F_noIcon.png");
+    content: url("../img/Kiosk_1F_Icon.png") url("../img/Kiosk_1F_noIcon.png") url("../img/Kiosk_3F_Icon.png") url("../img/Kiosk_3F_noIcon.png");
     display: none;
 }
 .flex {
