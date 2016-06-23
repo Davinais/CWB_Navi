@@ -5,22 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
     <title>臺灣南區氣象中心展示場導覽</title>
     <link href="style/style.css" rel="stylesheet" type="text/css" />
-    <link href="style/animate.css" rel="stylesheet" type="text/css" />
     <link rel="shortcut icon" href="img/SCWB_Logo_500x526.png" type="image/png" />
     <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="js/jquery.idle.min.js"></script>
-    <script type="text/javascript" src="js/jquery.fullscreen-min.js"></script>
     <script>
         $(document).ready(function(){
-            //Actually this line won't work, but it would if you toggle some settings.
-            $(document).fullScreen(true);
             //Set the idle state.
             $(document).idle({
                 onIdle: function(){
-                    $(".container").fadeTo(500, 0).queue(function(){
-                        $("#menu > ul > li:first").trigger("click");
-                        $(this).toggleClass("reverse").dequeue();
-                    }).fadeTo(500, 1);
+                    $(".container").fadeTo(500, 0).queue(function(){$(this).toggleClass("reverse").dequeue();}).fadeTo(500, 1);
                 },
                 idle: 30000,
                 recurIdleCall: true
@@ -67,6 +60,9 @@
             });
             //Set the position of the Marker, and hide it after 5 seconds.
             var markerOut; //Set a TimeOut ID to handle the event.
+            $("nav > ul > li").hover(function(){
+                $(this).trigger("click");
+            });
             $("nav > ul > li").click(function(){
                 clearTimeout(markerOut);
                 //Set the radius of marker, the default is 8%. Adding data-radius can change the value.
