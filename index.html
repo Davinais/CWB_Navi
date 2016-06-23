@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+    <title>臺灣南區氣象中心展示場導覽</title>
+    <link href="style/style.css" rel="stylesheet" type="text/css" />
+    <link href="style/animate.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="img/SCWB_Logo_500x526.png" type="image/png" />
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.idle.min.js"></script>
+    <script type="text/javascript" src="js/jquery.fullscreen-min.js"></script>
+    <script>
+        $(document).ready(function(){
+            //Actually this line won't work, but it would if you toggle some settings.
+            $(document).fullScreen(true);
+            //Set the idle state.
+            $(document).idle({
+                onIdle: function(){
+                    $(".container").fadeTo(500, 0).queue(function(){
+                        $("#menu > ul > li:first").trigger("click");
+                        $(this).toggleClass("reverse").dequeue();
+                    }).fadeTo(500, 1);
+                },
+                idle: 30000,
+                recurIdleCall: true
+            }); //idle: The idle time, count by ms; recurIdleCall: If it will be recursion.
+            //Disable the Right Click Menu.
+            $(document).get(0).oncontextmenu = function() {
+                return false;
+            };
+            //The Definition of the function seting the position of the Marker, and the function making the Marker hidden.
+            //Since .text() would ignore br elements, using .html() instead.
+            $.extend({
+                setMarker : function(mtop,mleft,mradius,name){
+                    name = name.replace(/<br[^<>]*>/g, '\r\n'); //Replace HTML-styled EOLs with Unicode-styled ones.
+                    $("#mapimg").css({"-webkit-filter":"brightness(0.3)","filter":"brightness(0.3)"});
+                    var width = $("#mapimg").width();
+                    mradius = width * mradius + "px";
+                    $(".marker").css({"top":mtop,"left":mleft,"width":mradius,"height":mradius}).show();
+                    $(".tag").css({"top":mtop,"left":mleft}).attr("data-name",name).show();
+                    var position = $(".marker").position();
+                    $("#maskimg").css({"width":width+"px","top":(position.top * (-1) - 5)+"px","left":(position.left * (-1) - 5)+"px"}); //Adjusting the position of the masked image.
+                },
+                hideMarker : function(){
+                    $("#mapimg").css({"-webkit-filter":"","filter":""});
+                    $(".marker").hide();
+                    $(".tag").hide();
+                }
+            });
+            //Select the Floor.
+            $("aside > div > ul > li").click(function(){
+                $("aside > div > ul > li").removeClass("selected");
+                var floor = $(this).data("floor");
+                $(this).addClass("selected");
+                $.hideMarker();
+                $("nav > ul").hide();
+                $("#"+floor).show();
+                $("#iconimg").attr("src", "img/"+floor+"_Icon.png");
+                $("#mapimg").attr("src", "img/"+floor+"_noIcon.png");
+                $("#maskimg").attr("src", "img/"+floor+"_noIcon.png");
+                $(".imagebox").css("max-width", $(this).data("imgwidth"));
+            });
+            //Hide the Marker when the cursor isn't focusing on the navigation division.
+            $("aside").mouseleave(function(){
+                $.hideMarker();
+            });
+            //Set the position of the Marker, and hide it after 5 seconds.
+            var markerOut; //Set a TimeOut ID to handle the event.
+            $("nav > ul > li").click(function(){
+                clearTimeout(markerOut);
+                //Set the radius of marker, the default is 8%. Adding data-radius can change the value.
+                if($(this).data("radius")){
+                    var rp = parseFloat($(this).data("radius"));
+                }
+                else {
+                    var rp = 0.08;
+                }
+                $.setMarker($(this).data("mtop"),$(this).data("mleft"),rp,$(this).html());
+                markerOut = setTimeout("$.hideMarker();", 5000);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="flex container">
+        <aside>
+            <header class="flex">
+                <img src="img/SCWB_Logo_500x526.png" style="max-height: inherit;" alt="" />
+                <h2>臺灣南區氣象中心</h2>
+            </header>
+            <div id="menu" class="flex">
+                <ul>
+                    <li data-floor="Kiosk_1F" data-imgwidth="2283px" class="selected">一樓(1F)</li>
+                    <li data-floor="Kiosk_3F" data-imgwidth="1826px">三樓(3F)</li>
+                    <li data-floor="Kiosk_5F" data-imgwidth="2283px">五樓(5F)</li>
+                </ul>
+            </div>
+            <nav>
+                <ul id="Kiosk_1F">
+                    <li data-mtop="32%" data-mleft="75%">即時衛星雲圖</li>
+                    <li data-mtop="29%" data-mleft="64%">空中映像</li>
+                    <li data-mtop="28%" data-mleft="57%">無人氣象飛機</li>
+                    <li data-mtop="30%" data-mleft="53%">地面觀測儀器</li>
+                    <li data-mtop="16%" data-mleft="65%">大氣層</li>
+                    <li data-mtop="18%" data-mleft="60.5%">太陽能量收支</li>
+                    <li data-mtop="18%" data-mleft="53%">大氣循環</li>
+                    <li data-mtop="18%" data-mleft="48%">水文循環</li>
+                    <li data-mtop="22%" data-mleft="45%">雲</li>
+                    <li data-mtop="33%" data-mleft="43%">水的三態</li>
+                    <li data-mtop="27%" data-mleft="36%">光象</li>
+                    <li data-mtop="19%" data-mleft="30%">氣象雷達</li>
+                    <li data-mtop="13%" data-mleft="31%">氣象衛星</li>
+                    <li data-mtop="13%" data-mleft="22%">第二代超級電腦</li>
+                    <li data-mtop="22%" data-mleft="20%">自記氣壓儀<br />虹吸式自記雨量儀<br />傾斗式自記雨量儀</li>
+                    <li data-mtop="31%" data-mleft="18%">鐵管地溫器<br />約旦日照計<br />全天日射計<br />濕度儀<br />風向風速儀</li>
+                    <li data-mtop="29%" data-mleft="26%">高空探測汽球</li>
+                    <li data-mtop="35%" data-mleft="17%" data-radius="0.07">高空氣象觀測</li>
+                    <li data-mtop="34%" data-mleft="23%">全臺氣象測站</li>
+                </ul>
+                <ul id="Kiosk_3F" style="display: none;">
+                    <li data-mtop="35%" data-mleft="8%">大氣環境監測<br />氣候冠軍賓果王<br />氣候面面觀</li>
+                    <li data-mtop="26%" data-mleft="4%">氣象資料庫</li>
+                    <li data-mtop="13.5%" data-mleft="5%">數值天氣預報</li>
+                    <li data-mtop="9%" data-mleft="9.5%">數值預報系統作業流程圖</li>
+                    <li data-mtop="9%" data-mleft="17%">天氣預報流程</li>
+                    <li data-mtop="28%" data-mleft="29.5%">柯氏力</li>
+                    <li data-mtop="12%" data-mleft="33%">龍捲風</li>
+                    <li data-mtop="9%" data-mleft="39%">低氣壓/高氣壓</li>
+                    <li data-mtop="15%" data-mleft="41%">風<br />落山風/焚風</li>
+                    <li data-mtop="24%" data-mleft="41%">颱風</li>
+                    <li data-mtop="33%" data-mleft="41%">鋒面</li>
+                    <li data-mtop="40%" data-mleft="41%">季風</li>
+                    <li data-mtop="60%" data-mleft="38%" data-radius="0.12">地球內部構造<br />地殼變動</li>
+                    <li data-mtop="80%" data-mleft="40%">造山運動</li>
+                    <li data-mtop="56%" data-mleft="56%">地震經驗</li>
+                    <li data-mtop="67%" data-mleft="56.5%">臺灣地震發生在哪裡</li>
+                    <li data-mtop="80%" data-mleft="52%">火山構造</li>
+                    <li data-mtop="79%" data-mleft="57.5%">地震帶<br />構造板塊分布<br />火山帶<br />臺灣的震源分布</li>
+                    <li data-mtop="80%" data-mleft="63%">地震成因</li>
+                    <li data-mtop="72%" data-mleft="73%">地震儀<br />地震觀測</li>
+                    <li data-mtop="57%" data-mleft="74%">海嘯</li>
+                </ul>
+                <ul id="Kiosk_5F" style="display: none;">
+                    <li data-mtop="21%" data-mleft="20%">星座盤</li>
+                    <li data-mtop="4.5%" data-mleft="25.5%" data-radius="0.11">四季的星空</li>
+                    <li data-mtop="26%" data-mleft="32%" data-radius="0.05">中西星座的比較</li>
+                    <li data-mtop="26%" data-mleft="35.5%" data-radius="0.05">太陽</li>
+                    <li data-mtop="28%" data-mleft="39.5%">天文和曆法</li>
+                    <li data-mtop="20%" data-mleft="39%" data-radius="0.05">三球儀</li>
+                    <li data-mtop="20%" data-mleft="44%" data-radius="0.05">太陽高度</li>
+                    <li data-mtop="6%" data-mleft="35%">太陽、地球、月亮</li>
+                    <li data-mtop="5%" data-mleft="40%">太陽系的星體(Dagik Earth)</li>
+                    <li data-mtop="6%" data-mleft="44%">隕石</li>
+                    <li data-mtop="26%" data-mleft="47%" data-radius="0.04">月球</li>
+                    <li data-mtop="24%" data-mleft="50.5%" data-radius="0.06">恆星</li>
+                    <li data-mtop="3.5%" data-mleft="50.5%">天文望遠鏡</li>
+                    <li data-mtop="14%" data-mleft="53%">宇宙的構造</li>
+                    <li data-mtop="25%" data-mleft="61%" data-radius="0.04">地球上海陸分布</li>
+                    <li data-mtop="19.5%" data-mleft="61%" data-radius="0.04">洋流</li>
+                    <li data-mtop="8%" data-mleft="67%">波浪</li>
+                    <li data-mtop="8%" data-mleft="76%">風暴潮</li>
+                    <li data-mtop="7%" data-mleft="85%">海象預報</li>
+                    <li data-mtop="17%" data-mleft="88%">海象觀測</li>
+                    <li data-mtop="26%" data-mleft="77%">海象資料浮標</li>
+                    <li data-mtop="18%" data-mleft="66%">潮汐</li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="imagebox" style="max-width: 2283px;">
+            <img src="img/Kiosk_1F_Icon.png" id="iconimg" alt="指示標籤"/>
+            <img src="img/Kiosk_1F_noIcon.png" id="mapimg" alt="導覽圖"/>
+            <span class="tag" style="display: none;"></span>
+            <div class="marker blink" style="display: none;">
+                <img src="img/Kiosk_1F_noIcon.png" id="maskimg" alt="導覽圖"/>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
